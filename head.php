@@ -1,6 +1,7 @@
 <head>
     <!-- Wow! Welcome to my code. If you need a professional website don't hesitate to contact me: https://mirnesglamocic.com -->
     <meta charset="UTF-8">
+    <meta name="author" content="Mirnes Glamočić">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL Quizzer</title>
