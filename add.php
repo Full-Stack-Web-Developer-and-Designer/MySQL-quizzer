@@ -1,6 +1,11 @@
 <?php include 'database.php'; ?>
 <?php
+$error = false;
+$question_text = '';
 if(isset($_POST['submit'])){
+    if(empty($_POST['question_number'] && $_POST['question_text'] && $_POST['choice1'] && $_POST['choice2'] && $_POST['correct_choice'] )){
+        $error = "All marked fields* is required!";
+    }else{
     // Get post variables
     $question_number = $_POST['question_number'];
     $question_text = $_POST['question_text'];
@@ -22,8 +27,9 @@ if(isset($_POST['submit'])){
 
     // Validate insert
     if($insert_row){
-        foreach($choices as $choice=>$value){
+        foreach($choices as $choice => $value){
             if($value !=''){
+                
                 if($correct_choice == $choice){
                     $is_correct = 1;
                 } else {
@@ -42,11 +48,12 @@ if(isset($_POST['submit'])){
                 } else {
                     die('Error: (' . $mysqli->errorno . ') ' . $mysqli->error);
                 }
-            }
-        }
-        $msg = "Question has been added.";
-    }
-
+            } 
+        } 
+        $msg = "Question has been added";
+    } 
+   
+}
 }
    /* 
     * Get total questions
@@ -75,21 +82,22 @@ if(isset($_POST['submit'])){
             <?php
                 if(isset($msg)){
                     echo '<h2 class="success">'.$msg.'</h2>';
+                } else{
+                    echo '<h2 class="error">'.$error.'</h2>';
                 }
                 ?>
             <form action="add.php" method="post" id="test_SQL">
-                <p><label for="question_number">Question Number:</label><input type="number" value="<?php echo $next;?>" name="question_number" id="question_number"></p>
-                <p><label for="question_text">Question Test:</label><input type="text" name="question_text" id="question_text"></p>
-                <p><label for="choice1">Choice #1:</label><input type="text" name="choice1" id="choice1"></p>
-                <p><label for="choice2">Choice #2:</label><input type="text" name="choice2" id="choice2"></p>
-                <p><label for="choice3">Choice #3:</label><input type="text" name="choice3" id="choice3"></p>
-                <p><label for="choice4">Choice #4:</label><input type="text" name="choice4" id="choice4"></p>
-                <p><label for="choice5">Choice #5:</label><input type="text" name="choice5" id="choice5"></p>
-                <p><label for="correct_choice">Correct Choice Number:</label><input type="number" name="correct_choice" id="correct_choice"></p>
+                <p><label for="question_number">Question Number: *</label><input type="number" value="<?php echo $next;?>" name="question_number" id="question_number"></p>
+                <p><label for="question_text">Question Test: *</label><input type="text" name="question_text" id="question_text" value="<?php if (isset($_POST['question_text'])) echo $_POST['question_text']; ?>"></p>
+                <p><label for="choice1">Choice #1: *</label><input type="text" name="choice1" id="choice1" value="<?php if (isset($_POST['choice1'])) echo $_POST['choice1']; ?>"></p>
+                <p><label for="choice2">Choice #2: *</label><input type="text" name="choice2" id="choice2" value="<?php if (isset($_POST['choice2'])) echo $_POST['choice2']; ?>"></p>
+                <p><label for="choice3">Choice #3:</label><input type="text" name="choice3" id="choice3" value="<?php if (isset($_POST['choice3'])) echo $_POST['choice3']; ?>"></p>
+                <p><label for="choice4">Choice #4:</label><input type="text" name="choice4" id="choice4" value="<?php if (isset($_POST['choice4'])) echo $_POST['choice4']; ?>"></p>
+                <p><label for="choice5">Choice #5:</label><input type="text" name="choice5" id="choice5"value="<?php if (isset($_POST['choice5'])) echo $_POST['choice5']; ?>"></p>
+                <p><label for="correct_choice">Correct Choice Number: *</label><input type="number" name="correct_choice" id="correct_choice" value="<?php if (isset($_POST['correct_choice'])) echo $_POST['correct_choice']; ?>"></p>
                 <p><input type="submit" name="submit" value="Submit"></p>
                 <a href="question.php?n=1" id="add_question" class="start">Try Quiz</a>
             </form>
-            <script src="validation.js"></script>
         </div>
     </main>
     <?php include 'footer.php' ?>
